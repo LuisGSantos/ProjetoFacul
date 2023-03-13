@@ -2503,7 +2503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkingSpeed: 7.5
   runningSpeed: 11.5
-  jumpSpeed: 4
+  jumpSpeed: 6
   gravity: 20
   lookSpeed: 1
   lookXLimit: 45
@@ -8187,7 +8187,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 100
-  field of view: 70
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -9523,7 +9523,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1488644889
 GameObject:
@@ -9971,7 +9971,7 @@ Transform:
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1705245866
 Mesh:
