@@ -6,6 +6,11 @@ public class Interact : MonoBehaviour
 {
     public string TagInteract;
     RaycastHit hit;
+
+    private void Start()
+    {
+        
+    }
     void Update()
     {
         if(Physics.Raycast(transform.position,transform.forward, out hit, 2f))

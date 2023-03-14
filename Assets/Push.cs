@@ -9,6 +9,7 @@ public class Push : MonoBehaviour
         [Space(10)]
         public Sprite texturaMaoFechada;
         public Sprite texturaMaoAberta;
+        public Sprite texturaCenter;
 
         bool canMove;
         bool isMoving;
@@ -26,6 +27,7 @@ public class Push : MonoBehaviour
         Camera mainCamera;
         GameObject objClosedHand;
         GameObject objOpenHand;
+        GameObject objCenter;
 
         void Awake()
         {
@@ -66,7 +68,17 @@ public class Push : MonoBehaviour
                 objOpenHand.transform.localRotation = Quaternion.identity;
                 objOpenHand.SetActive(false);
             }
-        }
+            if (texturaCenter)
+            {
+                objCenter = new GameObject("objCenter");
+                objCenter.transform.parent = this.transform;
+                objCenter.AddComponent<SpriteRenderer>().sprite = texturaCenter;
+                objCenter.transform.localPosition = new Vector3(0.0f, 0.0f, tempDistance);
+                objCenter.transform.localScale = new Vector3(0.01f, 0.01f, 0.05f);
+                objCenter.transform.localRotation = Quaternion.identity;
+                objCenter.SetActive(false);
+            }
+    }
 
         void Update()
         {
@@ -149,18 +161,21 @@ public class Push : MonoBehaviour
             {
                 objClosedHand.SetActive(false);
                 objOpenHand.SetActive(true);
-            }
+            objCenter.SetActive(false);
+        }
             else if (isMoving && texturaMaoFechada)
             {
                 objClosedHand.SetActive(true);
                 objOpenHand.SetActive(false);
+             objCenter.SetActive(false);
             }
              else if (!isMoving)
             {
                 objClosedHand.SetActive(false);
                 objOpenHand.SetActive(false);
+                objCenter.SetActive(true);
             }
-        }
+            }
 
         void FixedUpdate()
         {
