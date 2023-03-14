@@ -7,6 +7,7 @@ public class Door : MonoBehaviour
     [SerializeField] Animator aniDoor;
     public void Active()
     {
-        aniDoor.SetTrigger("Open");
+        if(!Physics.Raycast(transform.position - new Vector3(0,1,0), -transform.forward, 0.5f))
+            aniDoor.SetTrigger("Open");
     }
 }

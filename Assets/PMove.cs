@@ -22,13 +22,13 @@ public class PMove : MonoBehaviour
     }
     void Update()
     {
-        inside = Physics.Raycast(transform.position, transform.up, 2f);
+        inside = Physics.Raycast(transform.position, transform.up, 1f);
 
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        bool isCrouching = Input.GetKey(KeyCode.LeftControl);
+        bool isCrouching = Input.GetKey(KeyCode.LeftControl) || inside;
         float curSpeedX = canMove ? (isRunning ? runningSpeed : isCrouching ? crouchSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? (isRunning ? runningSpeed : isCrouching ? crouchSpeed : walkingSpeed) * Input.GetAxis("Horizontal") : 0;
         float movementDirectionY = moveDirection.y;
