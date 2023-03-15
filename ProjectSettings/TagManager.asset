@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Obj
   - Door
+  - Enemy
+  - EnemyHead
   layers:
   - Default
   - TransparentFX
