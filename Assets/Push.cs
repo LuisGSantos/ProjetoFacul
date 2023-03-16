@@ -39,7 +39,7 @@ public class Push : MonoBehaviour
             refTemp.layer = 2;
             foreach (Transform trans in refTemp.GetComponentsInChildren<Transform>(true))
             {
-                trans.gameObject.layer = 2;
+                trans.gameObject.layer = 0;
             }
             //
             float tempDistance = 0.3f;
