@@ -17,7 +17,7 @@ public class Interact : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, hit.point) <= 2 && hit.transform.CompareTag(TagInteract))
             {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (Input.GetKeyDown(KeyCode.Mouse1))
                  hit.collider.GetComponent<Door>().Active();
             }
         }

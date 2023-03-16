@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum EMobState { Idle, Attacking, Chasing, moveAway};
+public enum EMobState { Idle, Attacking, Chasing, moveAway, ReactHit};
 
 public class StalkerIA : MonoBehaviour
 {
     [Header("Settings")]
+    [SerializeField] StalkerIA IA;
+    [SerializeField] FovEnemy Head;
     [SerializeField] NavMeshAgent navAgent;
     [SerializeField] Animator animator;
     public EMobState state;
     [SerializeField] Transform target;
     [SerializeField] float Distance;
     [SerializeField] Vector3 iniPosition;
-    [SerializeField]float cooldown;
+    [SerializeField] float cooldown;
+    [SerializeField] float Life = 10;
+
+    [SerializeField] Rigidbody[] AllRig;
 
     void Start()
     {
@@ -25,14 +30,18 @@ public class StalkerIA : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(cooldown > 0)
+        Die();
+        if (Life > 0)
         {
-            cooldown -= Time.deltaTime;
+            if (cooldown > 0)
+            {
+                cooldown -= Time.deltaTime;
+            }
+            target = GameObject.FindGameObjectWithTag("Player").transform;
+            Distance = Vector3.Distance(transform.position, target.position);
+            animator.SetFloat("Speed", navAgent.velocity.magnitude);
+            SetState(state);
         }
-        target = GameObject.FindGameObjectWithTag("Player").transform;
-        Distance = Vector3.Distance(transform.position, target.position);
-        animator.SetFloat("Speed", navAgent.velocity.magnitude);
-        SetState(state);
     }
 
     public void Return()
@@ -43,7 +52,7 @@ public class StalkerIA : MonoBehaviour
     void SetState(EMobState _state)
     {
 
-        RaycastHit hit;
+        
         state = _state;
 
         switch (state)
@@ -51,39 +60,44 @@ public class StalkerIA : MonoBehaviour
             default:
             case EMobState.Idle:
                 navAgent.isStopped = true;
-                
-                Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, 3);
-                if (hit.collider != null)
-                    if(hit.collider.CompareTag("Player"))
-                        state = EMobState.Chasing;
-                    else
-                        state = EMobState.Idle;
+                if (Head.inimigosVisiveis.Count > 0)
+                    state = EMobState.Chasing;
                 else
                     state = EMobState.Idle;
                 break;
             case EMobState.Chasing:
                 navAgent.isStopped = false;
-                Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, 1);
                 navAgent.SetDestination(target.position);
+                RaycastHit hit;
+                Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, 2f);
+                Debug.DrawRay(transform.position + new Vector3(0, 1, 0), transform.forward * 2, Color.blue);
                 if (hit.collider != null)
-                    if (hit.collider.CompareTag("Door"))
-                        state = EMobState.moveAway;
+                {
+                    int Rand = Random.Range(0, 5);
+                    if (hit.collider.gameObject.CompareTag("Door") && Rand != 1)
+                    {
+                        Debug.Log("Porta na frente");
+                        state = EMobState.Idle;
+                    }
+                    else if(hit.collider.gameObject.CompareTag("Door") && Rand == 1)
+                    {
+                        hit.collider.gameObject.GetComponent<Door>().aniDoor.SetBool("Open",true);
+                    }
                     else
-                        state = EMobState.Chasing;
-                else
-                    state = EMobState.Chasing;
-                if (Distance <= 1.5f)
+                    {
+                        Debug.Log("Nada na frente");
+                    }
+                }
+                else if (Distance <= 1.5f && Head.inimigosVisiveis.Count > 0)
                     state = EMobState.Attacking;
+                else if(Head.inimigosVisiveis.Count <= 0 && Distance >= 8f)
+                    state = EMobState.moveAway;
                 break;
             case EMobState.moveAway:
                 navAgent.isStopped = false;
                 navAgent.destination = iniPosition;
-                Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, 2);
-                if (hit.collider != null)
-                    if (hit.collider.CompareTag("Player"))
-                        state = EMobState.Chasing;
-                    else if(hit.collider.CompareTag("Door"))
-                        state = EMobState.Idle;
+                if (Head.inimigosVisiveis.Count > 0)
+                    state = EMobState.Chasing;
                 else
                     state = EMobState.moveAway;
 
@@ -92,7 +106,7 @@ public class StalkerIA : MonoBehaviour
                 break;
             case EMobState.Attacking:
                 navAgent.isStopped = true;
-                if(cooldown <= 0)
+                if (cooldown <= 0)
                 {
                     animator.SetTrigger("Attack");
                     cooldown = 3f;
@@ -100,4 +114,34 @@ public class StalkerIA : MonoBehaviour
                 break;
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (Life > 0)
+        {
+            if (other.CompareTag("Weapon"))
+            {
+                Debug.Log("Acertou");
+                animator.SetTrigger("Hit");
+                navAgent.isStopped = true;
+                Life -= 2;
+            }
+        }
+    }
+
+    void Die()
+    {
+        if (Life <= 0)
+        {
+            Destroy(animator);
+            Destroy(navAgent);
+            Destroy(GetComponent<BoxCollider>());
+            for (int i = 0; i <= 10; i++)
+            {
+                AllRig[i].isKinematic = false;
+            }
+            Destroy(IA);
+        }
+    }
 }
+
