@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - EnemyHead
   - Weapon
+  - Item
+  - Key
   layers:
   - Default
   - TransparentFX

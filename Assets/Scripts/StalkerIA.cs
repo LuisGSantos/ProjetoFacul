@@ -18,14 +18,30 @@ public class StalkerIA : MonoBehaviour
     [SerializeField] Vector3 iniPosition;
     [SerializeField] float cooldown;
     [SerializeField] float Life = 10;
-
     [SerializeField] Rigidbody[] AllRig;
+    public enum TypeIni
+    {
+        Deitado,Sentado,Comendo
+    }
+    public TypeIni Inicio = TypeIni.Sentado;
 
     void Start()
     {
         iniPosition = transform.position;
         animator = GetComponent<Animator>();
         navAgent = GetComponent<NavMeshAgent>();
+        if (Inicio == TypeIni.Deitado)
+        {
+            animator.SetInteger("TypeIni", 0);
+        }
+        else if (Inicio == TypeIni.Sentado)
+        {
+            animator.SetInteger("TypeIni", 1);
+        }
+        else if (Inicio == TypeIni.Comendo)
+        {
+            animator.SetInteger("TypeIni", 2);
+        }
     }
 
     void FixedUpdate()
@@ -124,6 +140,7 @@ public class StalkerIA : MonoBehaviour
                 Debug.Log("Acertou");
                 animator.SetTrigger("Hit");
                 navAgent.isStopped = true;
+                state = EMobState.Chasing;
                 Life -= 2;
             }
         }

@@ -4,22 +4,35 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    [SerializeField] public Animator aniDoor;
+    public Animator aniDoor;
     [SerializeField] bool Open;
+    public bool Locked;
+    public int thisKey;
     public void Active()
     {
-        if(!Physics.Raycast(transform.position - new Vector3(0,1,0), -transform.forward, 0.5f))
+        if(!Locked)
         {
-            if(!Open)
+            if (!Physics.Raycast(transform.position - new Vector3(0, 1, 0), -transform.forward, 0.5f))
             {
-                Open = true;
-                aniDoor.SetBool("Open", Open);
+                if (!Open)
+                {
+                    Open = true;
+                    aniDoor.SetBool("Open", Open);
+                }
+                else
+                {
+                    Open = false;
+                    aniDoor.SetBool("Open", Open);
+                }
             }
-            else
-            {
-                Open = false;
-                aniDoor.SetBool("Open", Open);
-            }   
-        }   
+        }
+    }
+
+    public void Key(bool have)
+    {
+        if (Locked && have)
+        {
+            Locked = false;
+        }
     }
 }

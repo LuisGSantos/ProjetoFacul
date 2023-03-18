@@ -54,7 +54,7 @@ public class Push : MonoBehaviour
                 objClosedHand.transform.parent = this.transform;
                 objClosedHand.AddComponent<SpriteRenderer>().sprite = texturaMaoFechada;
                 objClosedHand.transform.localPosition = new Vector3(0.0f, 0.0f, tempDistance);
-                objClosedHand.transform.localScale = new Vector3(0.03f, 0.05f, 0.05f);
+                objClosedHand.transform.localScale = new Vector3(0.02f, 0.02f, 0.05f);
                 objClosedHand.transform.localRotation = Quaternion.identity;
                 objClosedHand.SetActive(false);
             }
@@ -64,7 +64,7 @@ public class Push : MonoBehaviour
                 objOpenHand.transform.parent = this.transform;
                 objOpenHand.AddComponent<SpriteRenderer>().sprite = texturaMaoAberta;
                 objOpenHand.transform.localPosition = new Vector3(0.0f, 0.0f, tempDistance);
-                objOpenHand.transform.localScale = new Vector3(0.03f, 0.05f, 0.05f);
+                objOpenHand.transform.localScale = new Vector3(0.02f, 0.02f, 0.05f);
                 objOpenHand.transform.localRotation = Quaternion.identity;
                 objOpenHand.SetActive(false);
             }
