@@ -11,6 +11,9 @@ TagManager:
   - Weapon
   - Item
   - Key
+  - Melee
+  - Projectile
+  - AreaDano
   layers:
   - Default
   - TransparentFX

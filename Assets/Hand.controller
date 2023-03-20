@@ -85,7 +85,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Click
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: IDWeapon
+    m_ConditionEvent: Type
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5395680459086560231}
@@ -109,11 +109,11 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 6
-    m_ConditionEvent: IDWeapon
-    m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: Click
+    m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: Type
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1363455804491095549}
@@ -201,13 +201,13 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: IDWeapon
+    m_Controller: {fileID: 0}
+  - m_Name: Type
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -255,7 +255,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Click
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: IDWeapon
+    m_ConditionEvent: Type
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7431254304194225761}

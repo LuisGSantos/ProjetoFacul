@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum EMobState { Idle, Attacking, Chasing, moveAway, ReactHit};
+public enum EMobState { Idle, Attacking, Chasing, moveAway, ReactHit,Seeyou};
 
 public class StalkerIA : MonoBehaviour
 {
@@ -19,6 +19,7 @@ public class StalkerIA : MonoBehaviour
     [SerializeField] float cooldown;
     [SerializeField] float Life = 10;
     [SerializeField] Rigidbody[] AllRig;
+    [SerializeField] Collider AreaHit;
     public enum TypeIni
     {
         Deitado,Sentado,Comendo
@@ -77,11 +78,14 @@ public class StalkerIA : MonoBehaviour
             case EMobState.Idle:
                 navAgent.isStopped = true;
                 if (Head.inimigosVisiveis.Count > 0)
+                {
                     state = EMobState.Chasing;
+                }   
                 else
                     state = EMobState.Idle;
                 break;
             case EMobState.Chasing:
+                AreaHit.enabled = false;
                 navAgent.isStopped = false;
                 navAgent.SetDestination(target.position);
                 RaycastHit hit;
@@ -89,13 +93,13 @@ public class StalkerIA : MonoBehaviour
                 Debug.DrawRay(transform.position + new Vector3(0, 1, 0), transform.forward * 2, Color.blue);
                 if (hit.collider != null)
                 {
-                    int Rand = Random.Range(0, 5);
+                    int Rand = Random.Range(0, 10);
                     if (hit.collider.gameObject.CompareTag("Door") && Rand != 1)
                     {
                         Debug.Log("Porta na frente");
                         state = EMobState.Idle;
                     }
-                    else if(hit.collider.gameObject.CompareTag("Door") && Rand == 1)
+                    else if(hit.collider.gameObject.CompareTag("Door") && Rand == 1 && !hit.collider.gameObject.GetComponent<Door>().Locked)
                     {
                         hit.collider.gameObject.GetComponent<Door>().aniDoor.SetBool("Open",true);
                     }
@@ -125,7 +129,8 @@ public class StalkerIA : MonoBehaviour
                 if (cooldown <= 0)
                 {
                     animator.SetTrigger("Attack");
-                    cooldown = 3f;
+                    AreaHit.enabled = true;
+                    cooldown = 2f;
                 }
                 break;
         }
@@ -135,7 +140,7 @@ public class StalkerIA : MonoBehaviour
     {
         if (Life > 0)
         {
-            if (other.CompareTag("Weapon"))
+            if (other.CompareTag("Melee"))
             {
                 Debug.Log("Acertou");
                 animator.SetTrigger("Hit");
@@ -153,9 +158,15 @@ public class StalkerIA : MonoBehaviour
             Destroy(animator);
             Destroy(navAgent);
             Destroy(GetComponent<BoxCollider>());
+            Destroy(AreaHit);
             for (int i = 0; i <= 10; i++)
             {
                 AllRig[i].isKinematic = false;
+            }
+            if(GetComponent<DropItens>())
+            {
+                GetComponent<DropItens>().Drop();
+                Destroy(GetComponent<DropItens>());
             }
             Destroy(IA);
         }
