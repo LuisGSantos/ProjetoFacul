@@ -8,11 +8,16 @@ public class Door : MonoBehaviour
     [SerializeField] bool Open;
     public bool Locked;
     public int thisKey;
+
+    private void Update()
+    {
+        Debug.DrawRay(transform.position - new Vector3(0, 1, 0), -transform.forward * 0.1f);
+    }
     public void Active()
     {
         if(!Locked)
         {
-            if (!Physics.Raycast(transform.position - new Vector3(0, 1, 0), -transform.forward, 0.5f))
+            if (!Physics.Raycast(transform.position - new Vector3(0, 1, 0), -transform.forward, 0.1f))
             {
                 if (!Open)
                 {

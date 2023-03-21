@@ -28,6 +28,7 @@ public class StalkerIA : MonoBehaviour
 
     void Start()
     {
+        transform.localScale = new Vector3(Random.Range(0.6f, 1), Random.Range(0.6f, 1),0.8f);
         iniPosition = transform.position;
         animator = GetComponent<Animator>();
         navAgent = GetComponent<NavMeshAgent>();
@@ -76,6 +77,7 @@ public class StalkerIA : MonoBehaviour
         {
             default:
             case EMobState.Idle:
+                AreaHit.enabled = false;
                 navAgent.isStopped = true;
                 if (Head.inimigosVisiveis.Count > 0)
                 {
@@ -114,13 +116,13 @@ public class StalkerIA : MonoBehaviour
                     state = EMobState.moveAway;
                 break;
             case EMobState.moveAway:
+                AreaHit.enabled = false;
                 navAgent.isStopped = false;
                 navAgent.destination = iniPosition;
                 if (Head.inimigosVisiveis.Count > 0)
                     state = EMobState.Chasing;
                 else
                     state = EMobState.moveAway;
-
                 if (transform.position == iniPosition)
                     state = EMobState.Idle;
                 break;
@@ -130,7 +132,7 @@ public class StalkerIA : MonoBehaviour
                 {
                     animator.SetTrigger("Attack");
                     AreaHit.enabled = true;
-                    cooldown = 2f;
+                    cooldown = 1.5f;
                 }
                 break;
         }

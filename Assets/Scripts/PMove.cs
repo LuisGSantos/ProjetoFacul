@@ -50,7 +50,7 @@ public class PMove : MonoBehaviour
         }
         else if (canMove && !inside)
         {
-            characterController.height = 1.7f;
+            characterController.height = 1.83f;
         }
 
 

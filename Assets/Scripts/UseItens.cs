@@ -14,12 +14,17 @@ public class UseItens : MonoBehaviour
         {
             cooldown -= Time.deltaTime;
         }
-        HandAnim.SetInteger("Type", Type(Inv.CurrentWeapon.GetComponent<infoItem>().Type));
+        if (Inv.CurrentWeapon != null)
+        {
+            HandAnim.SetInteger("Type", Type(Inv.CurrentWeapon.GetComponent<infoItem>().Type));
+        }
+        else
+            HandAnim.SetInteger("Type", Type(""));
         HitMeleeWeapon();
     }
     int Type(string type)
     {
-        if (type != "Melee" && type != "Projectile")
+        if (type != "Melee" && type != "Projectile" || type == null)
         {
             return 0;
         }
