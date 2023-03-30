@@ -9,4 +9,5 @@ public class infoItem : MonoBehaviour
     public string Type;
     public string Name;
     public string Description;
+    public bool Ammo = false, Equipado = false;
 }

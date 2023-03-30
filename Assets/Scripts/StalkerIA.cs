@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum EMobState { Idle, Attacking, Chasing, moveAway, ReactHit,Seeyou};
+public enum EMobState { Idle, Attacking, Chasing, moveAway, ReactHit, Seeyou};
 
 public class StalkerIA : MonoBehaviour
 {
@@ -11,24 +11,26 @@ public class StalkerIA : MonoBehaviour
     [SerializeField] StalkerIA IA;
     [SerializeField] FovEnemy Head;
     [SerializeField] NavMeshAgent navAgent;
-    [SerializeField] Animator animator;
+    [SerializeField] public Animator animator;
     public EMobState state;
     [SerializeField] Transform target;
     [SerializeField] float Distance;
     [SerializeField] Vector3 iniPosition;
     [SerializeField] float cooldown;
-    [SerializeField] float Life = 10;
+    [SerializeField] public float Life = 10;
     [SerializeField] Rigidbody[] AllRig;
-    [SerializeField] Collider AreaHit;
+    [SerializeField] Collider[] Hands;
     public enum TypeIni
     {
-        Deitado,Sentado,Comendo
+        Deitado,Sentado,Comendo,EmPe
     }
     public TypeIni Inicio = TypeIni.Sentado;
 
     void Start()
     {
-        transform.localScale = new Vector3(Random.Range(0.6f, 1), Random.Range(0.6f, 1),0.8f);
+        Ragdoll(false);
+        float rand = Random.Range(0.8f, 0.9f);
+        transform.localScale = new Vector3(rand,rand,rand);
         iniPosition = transform.position;
         animator = GetComponent<Animator>();
         navAgent = GetComponent<NavMeshAgent>();
@@ -43,6 +45,10 @@ public class StalkerIA : MonoBehaviour
         else if (Inicio == TypeIni.Comendo)
         {
             animator.SetInteger("TypeIni", 2);
+        }
+        else if (Inicio == TypeIni.EmPe)
+        {
+            animator.SetInteger("TypeIni", 3);
         }
     }
 
@@ -77,9 +83,12 @@ public class StalkerIA : MonoBehaviour
         {
             default:
             case EMobState.Idle:
-                AreaHit.enabled = false;
+                for (int i = 0; i <= 1; i++)
+                {
+                    Hands[i].enabled = false;
+                }
                 navAgent.isStopped = true;
-                if (Head.inimigosVisiveis.Count > 0)
+                if (Head.inimigosVisiveis.Count > 0 || Distance <= 3f)
                 {
                     state = EMobState.Chasing;
                 }   
@@ -87,8 +96,10 @@ public class StalkerIA : MonoBehaviour
                     state = EMobState.Idle;
                 break;
             case EMobState.Chasing:
-                AreaHit.enabled = false;
-                navAgent.isStopped = false;
+                for (int i = 0; i <= 1; i++)
+                {
+                    Hands[i].enabled = false;
+                }
                 navAgent.SetDestination(target.position);
                 RaycastHit hit;
                 Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, 2f);
@@ -96,27 +107,42 @@ public class StalkerIA : MonoBehaviour
                 if (hit.collider != null)
                 {
                     int Rand = Random.Range(0, 10);
-                    if (hit.collider.gameObject.CompareTag("Door") && Rand != 1)
+                    if(Head.inimigosVisiveis.Count == 0)
                     {
-                        Debug.Log("Porta na frente");
-                        state = EMobState.Idle;
-                    }
-                    else if(hit.collider.gameObject.CompareTag("Door") && Rand == 1 && !hit.collider.gameObject.GetComponent<Door>().Locked)
-                    {
-                        hit.collider.gameObject.GetComponent<Door>().aniDoor.SetBool("Open",true);
-                    }
-                    else
-                    {
-                        Debug.Log("Nada na frente");
+                        if (hit.collider.gameObject.CompareTag("Door") && Rand != 1)
+                        {
+                            Debug.Log("Porta na frente");
+                            state = EMobState.Idle;
+                        }
+                        else if (hit.collider.gameObject.CompareTag("Door") && Rand == 1 && !hit.collider.gameObject.GetComponent<Door>().Locked)
+                        {
+                            hit.collider.gameObject.GetComponent<Door>().aniDoor.SetBool("Open", true);
+                        }
+                        else
+                        {
+                            Debug.Log("Nada na frente");
+                        }
                     }
                 }
-                else if (Distance <= 1.5f && Head.inimigosVisiveis.Count > 0)
+                if (cooldown > 0)
+                {
+                    navAgent.isStopped = true;
+                }
+                else
+                    navAgent.isStopped = false;
+
+                if (Distance <= 2f && Head.inimigosVisiveis.Count > 0)
+                {
                     state = EMobState.Attacking;
-                else if(Head.inimigosVisiveis.Count <= 0 && Distance >= 8f)
+                }
+                else if(Head.inimigosVisiveis.Count <= 0 && Distance >= 25f)
                     state = EMobState.moveAway;
                 break;
             case EMobState.moveAway:
-                AreaHit.enabled = false;
+                for (int i = 0; i <= 1; i++)
+                {
+                    Hands[i].enabled = false;
+                }
                 navAgent.isStopped = false;
                 navAgent.destination = iniPosition;
                 if (Head.inimigosVisiveis.Count > 0)
@@ -128,28 +154,37 @@ public class StalkerIA : MonoBehaviour
                 break;
             case EMobState.Attacking:
                 navAgent.isStopped = true;
-                if (cooldown <= 0)
+                Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, 2f);
+                Debug.DrawRay(transform.position + new Vector3(0, 1, 0), transform.forward * 2, Color.red);
+                if (cooldown <= 0 && hit.collider.gameObject.CompareTag("Player"))
                 {
                     animator.SetTrigger("Attack");
-                    AreaHit.enabled = true;
-                    cooldown = 1.5f;
+                    cooldown = 1f;
+                }
+                break;
+            case EMobState.ReactHit:
+                navAgent.isStopped = true;
+                if (cooldown <= 0)
+                {
+                    
+                    state = EMobState.Chasing;
                 }
                 break;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void HitProjectile()
     {
-        if (Life > 0)
+        state = EMobState.ReactHit;
+        cooldown = 1f;
+        animator.SetTrigger("Hit");
+    }
+
+    public void AnimHitinTrigger()
+    {
+        for (int i = 0; i <= 1; i++)
         {
-            if (other.CompareTag("Melee"))
-            {
-                Debug.Log("Acertou");
-                animator.SetTrigger("Hit");
-                navAgent.isStopped = true;
-                state = EMobState.Chasing;
-                Life -= 2;
-            }
+            Hands[i].enabled = true;
         }
     }
 
@@ -160,17 +195,34 @@ public class StalkerIA : MonoBehaviour
             Destroy(animator);
             Destroy(navAgent);
             Destroy(GetComponent<BoxCollider>());
-            Destroy(AreaHit);
-            for (int i = 0; i <= 10; i++)
-            {
-                AllRig[i].isKinematic = false;
-            }
+            Ragdoll(true);
             if(GetComponent<DropItens>())
             {
                 GetComponent<DropItens>().Drop();
                 Destroy(GetComponent<DropItens>());
             }
             Destroy(IA);
+        }
+    }
+
+    public void Ragdoll(bool Active)
+    {
+        if(Active)
+        {
+            //navAgent.isStopped = true;
+            //animator.enabled = false;
+            for (int i = 0; i <= 10; i++)
+            {
+                AllRig[i].isKinematic = false;
+            }
+        }
+        else
+        {
+            animator.enabled = true;
+            for (int i = 0; i <= 10; i++)
+            {
+                AllRig[i].isKinematic = true;
+            }
         }
     }
 }

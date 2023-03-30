@@ -5,13 +5,32 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     public Animator aniDoor;
+    public infoItem InfoDoor;
+
     [SerializeField] bool Open;
+
+    public AudioSource Source;
+    public AudioClip[] Clip;
+    
     public bool Locked;
     public int thisKey;
 
     private void Update()
     {
         Debug.DrawRay(transform.position - new Vector3(0, 1, 0), -transform.forward * 0.1f);
+        if(Locked)
+        {
+            InfoDoor.Description = "Requer Chave da " + InfoDoor.Name;
+            if(thisKey == 0)
+            {
+                InfoDoor.Description = "Emperrada";
+            }
+        }
+        else if (!Locked)
+        {
+            InfoDoor.Description = "[E] - Abrir/Fechar";
+        }
+
     }
     public void Active()
     {
@@ -22,22 +41,30 @@ public class Door : MonoBehaviour
                 if (!Open)
                 {
                     Open = true;
-                    aniDoor.SetBool("Open", Open);
+                    Source.PlayOneShot(Clip[0]);
                 }
                 else
                 {
                     Open = false;
-                    aniDoor.SetBool("Open", Open);
                 }
+                aniDoor.SetBool("Open", Open);
             }
         }
     }
 
     public void Key(bool have)
     {
-        if (Locked && have)
+        if(Locked)
         {
-            Locked = false;
+            if(have)
+            {
+                Locked = false;
+                Source.PlayOneShot(Clip[2]);
+            }
+            else
+            {
+                Source.PlayOneShot(Clip[3]);
+            }
         }
     }
 }

@@ -8,35 +8,78 @@ public class Player : MonoBehaviour
     public int MaxHealth;
     public int minDmg;
     public float time;
+    public float Cooldown;
+    public GameObject Head;
+    public PMove Pmove;
 
-    [SerializeField] PMove _Pmove;
+    [SerializeField] MainControl Main;
+
+    [SerializeField] CharacterController Character;
 
     private void Start()
     {
-        _Pmove = GetComponent<PMove>();
+        Character = GetComponent<CharacterController>();
+        Main = GameObject.Find("Canvas").GetComponent<MainControl>();
         CurrentHealth = MaxHealth;
+        
     }
 
     private void Update()
     {
-        
+        if(time > 0)
+        {
+            time -= Time.deltaTime; 
+        }
+        if(Pmove.enabled == true)
+        {
+            Die();
+        }
+        if(CurrentHealth <= 0)
+        {
+            if(time <= 0)
+            {
+                Main.Restart();
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("AreaDano"))
+        if(other.CompareTag("EnemyHand"))
         {
-            time += Time.deltaTime;
-            _Pmove.enabled = false;
-            if (time < 1f && Input.GetKeyDown(KeyCode.Space))
+            if(time <= 0)
             {
-                CurrentHealth -= 1;
+                RaycastHit hit;
+                Physics.Raycast(transform.position, -transform.forward,out hit,2f);
+                if (hit.collider == null)
+                {
+                    Character.Move(-transform.forward);
+                }
+                Character.enabled = false;
+                Dmg();
             }
-            else
-                CurrentHealth -= 5;
         }
         else
-            _Pmove.enabled = true;
+            Character.enabled = true;
+    }
 
+    void Dmg()
+    {
+        CurrentHealth -= minDmg;
+        Debug.Log("Tomou Dano");
+        Character.enabled = true;
+        time = Cooldown;
+    }
+
+    void Die()
+    {
+        if(CurrentHealth <= 0)
+        {
+            Character.enabled = false;
+            Head.GetComponent<Collider>().enabled = true;
+            Head.GetComponent<Rigidbody>().isKinematic = false;
+            Pmove.enabled = false;
+            time = 2f;
+        }
     }
 }

@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] int[] FastInv;
+    public int[] FastInv;
     public List<int> KeyInv = new List<int>();
     [SerializeField] Push Pscript;
     [SerializeField] ItemList Itens;
-
+    public Text AmmoTxt;
     public int CurrentSlot;
     public GameObject CurrentWeapon;
     public Transform Hand,Head;
+    public int Ammo,CurrentAmmo;
 
     RaycastHit hit;
 
@@ -22,7 +24,6 @@ public class Inventory : MonoBehaviour
 
     void Update()
     {
-        
         int TempSlot = Input.GetKeyDown(KeyCode.X) ? 0 : Input.GetKeyDown(KeyCode.Alpha1) ? 1 : Input.GetKeyDown(KeyCode.Alpha2) ? 2 : Input.GetKeyDown(KeyCode.Alpha3) ? 3 : CurrentSlot;
         if(CurrentSlot != TempSlot)
         {
@@ -32,7 +33,10 @@ public class Inventory : MonoBehaviour
                 SwitchSlot(CurrentSlot);
             }
         }
-          
+        if(AmmoTxt.enabled)
+        {
+            AmmoTxt.text = CurrentWeapon.GetComponent<Pistol>().Ammo.ToString() + " / " + CurrentWeapon.GetComponent<Pistol>().MaxAmmo.ToString();
+        }
         if(CurrentSlot > 0)
         {
             Pscript.enabled = false;
@@ -74,15 +78,34 @@ public class Inventory : MonoBehaviour
                     }
                 }
             }
+            if (hit.collider.gameObject.CompareTag("Ammo"))
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    Ammo += 8;
+                    Destroy(hit.collider.gameObject);
+                }
+            }
         }
     }
 
     void SwitchSlot(int Slot)
     {
         Destroy(CurrentWeapon);
-        CurrentWeapon = Instantiate(Itens.AllItensList[FastInv[Slot]], Hand);
-        CurrentWeapon.tag = CurrentWeapon.GetComponent<infoItem>().Type;
-        CurrentWeapon.GetComponent<Rigidbody>().isKinematic = true;
-        CurrentWeapon.layer = 2;
+        if (FastInv[Slot] != 0)
+        {
+            CurrentWeapon = Instantiate(Itens.AllItensList[FastInv[Slot]], Hand);
+            CurrentWeapon.tag = CurrentWeapon.GetComponent<infoItem>().Type;
+            CurrentWeapon.GetComponent<Rigidbody>().isKinematic = true;
+            CurrentWeapon.GetComponentInChildren<Light>().enabled = false;
+            CurrentWeapon.layer = 2;
+            CurrentWeapon.GetComponent<infoItem>().Equipado = true;
+            if(CurrentWeapon.GetComponent<infoItem>().Ammo)
+            {
+                AmmoTxt.enabled = true;
+            }
+            else
+                AmmoTxt.enabled = false;
+        }
     }
 }

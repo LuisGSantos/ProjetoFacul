@@ -93,20 +93,17 @@ public class FovEnemy : MonoBehaviour
                     RaycastHit hitRaycast;
                     if (Physics.Raycast(cabecaInimigo.position, rayDirection, out hitRaycast, distanciaDeVisao))
                     {
-                        if (!hitRaycast.transform.IsChildOf(transform.root) && !hitRaycast.collider.isTrigger)
+                        if (hitRaycast.collider.gameObject.CompareTag(tagDosInimigos))
                         {
-                            if (hitRaycast.collider.gameObject.CompareTag(tagDosInimigos))
+                            Debug.DrawLine(cabecaInimigo.position, hitRaycast.point, Color.red);
+                            //
+                            if (!listaTemporariaDeColisoes.Contains(hitRaycast.transform))
                             {
-                                Debug.DrawLine(cabecaInimigo.position, hitRaycast.point, Color.red);
-                                //
-                                if (!listaTemporariaDeColisoes.Contains(hitRaycast.transform))
-                                {
-                                    listaTemporariaDeColisoes.Add(hitRaycast.transform);
-                                }
-                                if (!inimigosVisiveis.Contains(hitRaycast.transform))
-                                {
-                                    inimigosVisiveis.Add(hitRaycast.transform);
-                                }
+                                listaTemporariaDeColisoes.Add(hitRaycast.transform);
+                            }
+                            if (!inimigosVisiveis.Contains(hitRaycast.transform))
+                            {
+                                inimigosVisiveis.Add(hitRaycast.transform);
                             }
                         }
                     }

@@ -9,7 +9,7 @@ public class ShowInfo : MonoBehaviour
     private void Update()
     {
         RaycastHit hit;
-        Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 1.5f);
+        Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 2f);
         if(hit.collider != null)
         {
             if (hit.collider.gameObject.GetComponent<infoItem>() != null)

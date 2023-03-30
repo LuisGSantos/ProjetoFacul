@@ -10,6 +10,8 @@ public class PMove : MonoBehaviour
     public float lookSpeed = 2.0f, lookXLimit = 45.0f, rotationX = 0;
     CharacterController characterController;
     [SerializeField] Camera playerCamera;
+    [SerializeField] AudioClip[] Clip;
+    [SerializeField] AudioSource Source;
     Vector3 moveDirection = Vector3.zero;
 
     public bool canMove,inside;
@@ -53,7 +55,6 @@ public class PMove : MonoBehaviour
             characterController.height = 1.83f;
         }
 
-
         if (!characterController.isGrounded)
         {
             moveDirection.y -= gravity * Time.deltaTime;
@@ -67,6 +68,30 @@ public class PMove : MonoBehaviour
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+        }
+
+        if(characterController.isGrounded)
+        {
+            if(curSpeedX > 0 || curSpeedY > 0)
+            {
+                if (!Source.isPlaying)
+                {
+                    Source.PlayOneShot(Clip[Random.Range(0, Clip.Length)]);
+                    if (curSpeedX == crouchSpeed || curSpeedY == crouchSpeed)
+                    {
+                        Source.pitch = 1;
+                    }
+                    if (curSpeedX == walkingSpeed || curSpeedY == walkingSpeed)
+                    {
+                        Source.pitch = 2;
+                    }
+                    if (curSpeedX == runningSpeed || curSpeedY == runningSpeed)
+                    {
+                        Source.pitch = 3;
+                    }
+                }
+            }
+            
         }
     }
 }
