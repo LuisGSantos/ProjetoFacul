@@ -20,6 +20,7 @@ TagManager:
   - Ammo
   - Exit
   - Floor
+  - Fire
   layers:
   - Default
   - TransparentFX

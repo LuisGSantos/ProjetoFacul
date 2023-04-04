@@ -53,11 +53,21 @@ public class Player : MonoBehaviour
                 Physics.Raycast(transform.position, -transform.forward,out hit,2f);
                 if (hit.collider == null)
                 {
-                    Character.Move(-transform.forward);
+                    Character.Move(-transform.forward*0.2f);
                 }
                 Character.enabled = false;
                 Dmg();
             }
+        }
+        else if(other.CompareTag("Fire"))
+        {
+            RaycastHit hit;
+            Physics.Raycast(transform.position, -transform.forward, out hit, 2f);
+            if (hit.collider == null)
+            {
+                Character.Move(-transform.forward * 1.5f);
+            }
+            CurrentHealth -= 2;
         }
         else
             Character.enabled = true;

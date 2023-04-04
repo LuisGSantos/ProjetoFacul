@@ -15,6 +15,8 @@ public class Door : MonoBehaviour
     public bool Locked;
     public int thisKey;
 
+    public int durability = 100;
+
     private void Update()
     {
         Debug.DrawRay(transform.position - new Vector3(0, 1, 0), -transform.forward * 0.1f);
@@ -29,6 +31,11 @@ public class Door : MonoBehaviour
         else if (!Locked)
         {
             InfoDoor.Description = "[E] - Abrir/Fechar";
+        }
+
+        if(durability <= 0)
+        {
+            Destroy(gameObject);
         }
 
     }

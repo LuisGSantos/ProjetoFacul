@@ -1477,6 +1477,7 @@ MonoBehaviour:
   iniPosition: {x: 0, y: 0, z: 0}
   cooldown: 0
   Life: 20
+  MaxDistance: 15
   AllRig:
   - {fileID: 6599008203098769438}
   - {fileID: 5977344547706798242}
