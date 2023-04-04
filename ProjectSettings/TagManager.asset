@@ -6,6 +6,21 @@ TagManager:
   tags:
   - Obj
   - Door
+  - Enemy
+  - EnemyHead
+  - Weapon
+  - Item
+  - Key
+  - Melee
+  - Projectile
+  - AreaDano
+  - Hand
+  - Ranged
+  - EnemyHand
+  - Ammo
+  - Exit
+  - Floor
+  - Fire
   layers:
   - Default
   - TransparentFX

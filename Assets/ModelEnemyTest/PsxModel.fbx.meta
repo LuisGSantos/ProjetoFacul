@@ -1,0 +1,159 @@
+fileFormatVersion: 2
+guid: 44bda2f04d88ae24a923d9c402e58f58
+ModelImporter:
+  serializedVersion: 20200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths:
+    - Bones
+    - Torso
+    - Arms
+    - Legs
+    - Feet
+    - Head
+    - Bones/spine
+    - Bones/spine/spine.001
+    - Bones/spine/spine.001/spine.002
+    - Bones/spine/spine.001/spine.002/spine.003
+    - Bones/spine/spine.001/spine.002/spine.003/spine.004
+    - Bones/spine/spine.001/spine.002/spine.003/spine.004/spine.005
+    - Bones/spine/spine.001/spine.002/spine.003/spine.004/spine.005/spine.006
+    - Bones/spine/spine.001/spine.002/spine.003/spine.004/spine.005/spine.006/spine.006_end
+    - Bones/spine/spine.001/spine.002/spine.003/shoulder.L
+    - Bones/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L
+    - Bones/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L
+    - Bones/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L/hand.L
+    - Bones/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L/hand.L/hand.L_end
+    - Bones/spine/spine.001/spine.002/spine.003/shoulder.R
+    - Bones/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R
+    - Bones/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R
+    - Bones/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R
+    - Bones/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/hand.R_end
+    - Bones/spine/spine.001/spine.002/spine.003/breast.L
+    - Bones/spine/spine.001/spine.002/spine.003/breast.L/breast.L_end
+    - Bones/spine/spine.001/spine.002/spine.003/breast.R
+    - Bones/spine/spine.001/spine.002/spine.003/breast.R/breast.R_end
+    - Bones/spine/pelvis.L
+    - Bones/spine/pelvis.L/pelvis.L_end
+    - Bones/spine/pelvis.R
+    - Bones/spine/pelvis.R/pelvis.R_end
+    - Bones/spine/thigh.L
+    - Bones/spine/thigh.L/shin.L
+    - Bones/spine/thigh.L/shin.L/foot.L
+    - Bones/spine/thigh.L/shin.L/foot.L/toe.L
+    - Bones/spine/thigh.L/shin.L/foot.L/toe.L/toe.L_end
+    - Bones/spine/thigh.L/shin.L/foot.L/heel.02.L
+    - Bones/spine/thigh.L/shin.L/foot.L/heel.02.L/heel.02.L_end
+    - Bones/spine/thigh.R
+    - Bones/spine/thigh.R/shin.R
+    - Bones/spine/thigh.R/shin.R/foot.R
+    - Bones/spine/thigh.R/shin.R/foot.R/toe.R
+    - Bones/spine/thigh.R/shin.R/foot.R/toe.R/toe.R_end
+    - Bones/spine/thigh.R/shin.R/foot.R/heel.02.R
+    - Bones/spine/thigh.R/shin.R/foot.R/heel.02.R/heel.02.R_end
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 3
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips:
+  - 8d83b957e96d93b4fa10963a4f034f61
+  - be4c488f4dde0fd4693f2dc43bd50f06
+  - 228063d923af26048a9de3828dbefe02
+  - 1dd53ff55cd350c4b9c2aa3a0cc5e699
+  - 22212e8ca3a80b749a9e065070a46d02
+  - 8674e5fbedaea524785a58a9470cd098
+  - 6a8a6ad2bd0ec2f4ab700b99714e1c1f
+  - 83a3b327fbb76ad4eab8ad3165a93254
+  - 08d601751a9720d4cb28dfe5d49407c2
+  - 7b20f12928f7afc469c6598c6fc3de4f
+  - 3254ba0a93f01574c9ad07782ca65699
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
